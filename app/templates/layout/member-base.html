@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+
+<body>
+  {% include 'partials/navbar.html' %}
+  <div class="h-[93vh]">
+    <img src="{{url_for('static', filename='images/banner.jpg')}}" class="w-full h-[35vh] object-cover">
+    <div class="container mx-auto ">
+      <div class="grid gap-4 md:grid-cols-5 mt-5">
+        <div class="md:col-span-1">
+          <div class="shadow py-2">
+            <a href="{{url_for('main.dashboard')}}"
+              class="block pt-2 pb-2 px-3 {% if request.path == '/dashboard' %} bg-gray-800 text-white {%else%}hover:bg-gray-600 hover:text-white {% endif %}">Dashboard</a>
+            <hr>
+            <a href="{{url_for('main.profile')}}" class="block pt-2 pb-2 px-3 {% if request.path == '/my-profile' %} bg-gray-800 text-white {%else%} hover:bg-gray-600 hover:text-white {% endif %}">My Profile</a>
+            <hr>
+            <a href="{{url_for('main.request_book')}}" class="block pt-2 pb-2 px-3 {% if request.path == '/book-request' %} bg-gray-800 text-white {%else%} hover:bg-gray-600 hover:text-white {% endif %}">Book Requests</a>
+            <hr>
+            <a href="{{url_for('main.change_password')}}" class="block pt-2 pb-2 px-3 {% if request.path == '/change-password' %} bg-gray-800 text-white {%else%} hover:bg-gray-600 hover:text-white  {% endif %}">Change Password</a>
+            <hr>
+            <a href="{{url_for('main.logout')}}" class="block pt-2 pb-2 px-3 hover:bg-gray-600 hover:text-white">Logout</a>
+          </div>
+        </div>
+        <div class="md:col-span-4">
+          {% block content %} {% endblock %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script>
+    const menu = document.getElementById('mobile-menu');
+    function toggle(){
+      menu.classList.toggle("hidden");
+    }
+  </script>
+</body>
+</html>

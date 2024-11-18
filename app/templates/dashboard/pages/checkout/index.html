@@ -1,0 +1,169 @@
+{% extends 'dashboard/layout/base.html' %}
+
+{% block content %}
+<div class="flex flex-wrap flex-column items-center md:flex-row space-y-4 md:space-y-0 pb-4 dark:bg-gray-900 p-2">
+  <div class="hidden md:block">
+    <div class="flex flex-col">
+      <h1 class="font-bold">Checkout books</h1>
+      <p class="text-gray-400 text-sm">To issue books to members and view the book request details.</p>
+    </div>
+  </div>
+  {% if data.items|length > 0 %}
+  <div class="ml-auto mr-3">
+    <form action="{{ url_for('admin.checkout.index', query=form.search.data) }}">
+      {{ form.hidden_tag() }}
+      {{ form.search(class_='outline-none block p-2 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50')}}
+    </form>
+  </div>
+  <div>
+    <a href="{{url_for('admin.checkout.index')}}" class="mr-3 bg-slate-800 p-2 rounded-md text-white text-sm">Clear
+      filters</a>
+  </div>
+  {%endif%}
+</div>
+
+{% if data.items|length > 0 %}
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-5">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-white uppercase bg-gray-800 dark:bg-gray-700 dark:text-gray-400">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          SN
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Member
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Book
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Category
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Status
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Requested Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Borrowed Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Due Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Returned Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Action
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bookrequest in data.items %}
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <td class="px-6 py-4">
+          {{ loop.index }}
+        </td>
+        <td class="px-6 py-4 font-semibold text-black capitalize">
+          {{bookrequest.user.firstname}} {{bookrequest.user.lastname}}
+        </td>
+        <td class="px-6 py-4 font-semibold flex gap-2 capitalize">
+          <img src="{{bookrequest.book.picture}}" class="object-contain w-16 h-16">
+          <div class="flex flex-col justify-center">
+            {{bookrequest.book.name}}
+            <span class="text-[12px] text-gray-400">by: {{bookrequest.book.author.name}}</span>
+          </div>
+        </td>
+        <td class="px-6 py-4 capitalize">
+          {{bookrequest.book.category.title}}
+        </td>
+        <th>
+          {%if bookrequest.status.name=='Requested'%}
+          <span class="text-[12px] px-3 py-1 rounded-3xl bg-blue-600 text-white">{{bookrequest.status.name}}</span>
+          {%elif bookrequest.status.name=='Renewed' %}
+          <span class="text-[12px] px-3 py-1 rounded-3xl bg-yellow-600 text-white">{{bookrequest.status.name}}</span>
+          {%elif bookrequest.status.name=='Returned' %}
+          <span class="text-[12px] px-3 py-1 rounded-3xl bg-slate-600 text-white">{{bookrequest.status.name}}</span>
+          {%else%}
+          <span class="text-[12px] px-3 py-1 rounded-3xl bg-green-600 text-white">{{bookrequest.status.name}}</span>
+          {%endif%}
+        </th>
+        <td class="px-6 py-4">
+          {{bookrequest.created_at.strftime('%Y-%m-%d')}}
+        </td>
+        <td class="px-6 py-4">
+          {%if bookrequest.issue_date%}
+          {{bookrequest.issue_date.strftime('%Y-%m-%d')}}
+          {%else%}
+          -
+          {%endif%}
+        </td>
+        <td class="px-6 py-4">
+          {%if bookrequest.due_date%}
+          {{bookrequest.due_date.strftime('%Y-%m-%d')}}
+          {%else%}
+          -
+          {%endif%}
+        </td>
+        <td class="px-6 py-4">
+          {%if bookrequest.returned_date%}
+          {{bookrequest.returned_date.strftime('%Y-%m-%d')}}
+          {%else%}
+          -
+          {%endif%}
+        </td>
+        <th>
+          <div class="flex gap-2">
+            {%if bookrequest.status.name!='Borrowed'%}
+            {%if bookrequest.status.name!='Returned'%}
+            {%if bookrequest.status.name!='Renewed'%}
+            <a href="{{url_for('admin.checkout.issue_book',id=bookrequest.id)}}"
+              class="bg-gray-800 hover:bg-gray-500 text-white text-[13px] rounded-full px-4 py-1 shadow-xl" onclick="return confirmation(event,'Are you sure you want to issue this book?','issue')">Issue
+              Book</a>
+            {%endif%}
+            {%endif%}
+            {%endif%}
+            {%if bookrequest.status.name!='Requested'%}
+            {%if bookrequest.status.name!='Returned'%}
+            <a href="{{url_for('admin.checkout.return_book',id=bookrequest.id)}}"
+              class="bg-red-600 hover:bg-red-500 text-white text-[13px] rounded-full px-4 py-1 shadow-xl">Return</a>
+            {%endif%}
+            <a href="{{url_for('admin.checkout.renew_book',id=bookrequest.id)}}"
+              class="bg-green-600 hover:bg-green-500 text-white text-[13px] rounded-full px-4 py-1 shadow-xl" onclick="return confirmation(event,'Are you sure you want to renew?','renew')">Renew</a>
+            {%endif%}
+          </div>
+        </th>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% include 'dashboard/partials/pagination.html' %}
+{%else%}
+{% include 'dashboard/partials/no-content.html' %}
+{%endif%}
+
+{% endblock %}
+
+{% block script %}
+<script>
+  async function confirmation(e,title,type) {
+    e.preventDefault();
+    const urlToRedirect = e.currentTarget.getAttribute('href');
+    await Swal.fire({
+      title: title,
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: `Yes, ${type} it!`
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = urlToRedirect
+      }
+    });
+  }
+</script>
+{% endblock %}

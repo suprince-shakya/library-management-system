@@ -1,0 +1,93 @@
+{% extends 'layout/member-base.html' %}
+
+{% block content %}
+<div class="flex justify-end w-full">
+  <a href="{{url_for('main.book')}}" class="text-white bg-gray-800 px-3 py-2 rounded-3xl shadow-md text-sm">Request
+    Books</a>
+</div>
+
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-2">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+    <thead class="text-xs text-white uppercase bg-gray-800 dark:bg-gray-700">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          ISBN Number
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Picture
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Name
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Category
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Author
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Requested Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Due Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Returned Date
+        </th>
+        <th scope="col" class="px-6 py-3">
+          Status
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bookrequest in data.items %}
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <th scope="row" class="text-gray-900 whitespace-nowrap dark:text-white pl-10">
+          {{ bookrequest.book.isbn }}
+        </th>
+        <td class="px-6 py-4">
+          <img src="{{ bookrequest.book.picture }}" class="rounded h-16 w-16 object-contain">
+        </td>
+        <td class="px-6 py-4">
+          {{ bookrequest.book.name }}
+        </td>
+        <td class="px-6 py-4">
+          {{bookrequest.book.category.title}}
+        </td>
+        <td class="px-6 py-4">
+          {{bookrequest.book.author.name}}
+        </td>
+        <td class="px-6 py-4">
+          <div class="font-normal text-gray-500">{{ bookrequest.created_at.strftime('%Y-%m-%d') }}</div>
+        </td>
+        <td class="py-4">
+          {%if bookrequest.due_date%}
+          <div class="font-normal text-gray-500">{{ bookrequest.due_date.strftime('%Y-%m-%d') }}</div>
+          {%else%}
+          -
+          {%endif%}
+        </td>
+        <td class="px-6 py-4">
+          {%if bookrequest.returned_date%}
+          <div class="font-normal text-gray-500">{{ bookrequest.returned_date.strftime('%Y-%m-%d') }}</div>
+          {%else%}
+          -
+          {%endif%}
+        </td>
+        <td class="px-6 py-4">
+          {%if bookrequest.status.name=='Borrowed'%}
+          <span class="px-3 py-2 rounded-3xl bg-blue-500 text-white text-xs">{{bookrequest.status.name}}</span>
+          {%else%}
+          <span class="px-3 py-2 rounded-3xl bg-green-500 text-white text-xs">{{bookrequest.status.name}}</span>
+          {%endif%}
+
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="pb-1">
+  {% include 'dashboard/partials/pagination.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+version: "3.2"
+services:
+  db:
+    image: mysql:latest
+    container_name: 'mysql'
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: 'lms'
+      MYSQL_PASSWORD: 'password123'
+      MYSQL_ROOT_PASSWORD: 'root123'
+    volumes:
+      - ./my-db:/var/lib/mysql
+  backend:
+    depends_on:
+      - db
+    image: lms-app
+    container_name: lms-app
+    ports:
+      - "3001:8080"
+    restart: always
+    environment:
+      SECRET_KEY: 'topsecretkey'
+      DATABASE_URI: 'mysql://root:root123@db:3306/lms'
+      APP_HOST: 'http://192.168.1.4:3001'
+    volumes:
+      - .:/opt/app/
+    links:
+      - db:db

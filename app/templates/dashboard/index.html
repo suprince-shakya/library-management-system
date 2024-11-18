@@ -1,0 +1,188 @@
+{% extends 'dashboard/layout/base.html' %}
+
+{% block content %}
+<div>
+  <div class="grid gap-2 sm:grid-cols-2 md:grid-cols-5 md:gap-4">
+    <div class="bg-white rounded px-5 py-3 shadow">
+      <p class="text-gray-400">Total Books</p>
+      <h1 class="mt-5 font-bold">{{data.total_books}}</h1>
+    </div>
+    <div class="bg-white rounded px-5 py-3 shadow">
+      <p class="text-gray-400">Borrowed Books</p>
+      <h1 class="mt-5 font-bold">{{data.total_borrowed_books}}</h1>
+    </div>
+    <div class="bg-white rounded px-5 py-3 shadow">
+      <p class="text-gray-400">Total Active Members</p>
+      <h1 class="mt-5 font-bold">{{data.total_active_members}}</h1>
+    </div>
+    <div class="bg-white rounded px-5 py-3 shadow">
+      <p class="text-gray-400">Total Blocked Members</p>
+      <h1 class="mt-5 font-bold">{{data.total_blocked_members}}</h1>
+    </div>
+    <div class="bg-white rounded px-5 py-3 shadow">
+      <p class="text-gray-400">Returned Books</p>
+      <h1 class="mt-5 font-bold">{{data.total_returned_books}}</h1>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-5 mt-5">
+    <div class="md:col-span-4 p-2 bg-white shadow rounded">
+      <div class="flex px-5 pb-4 pt-3">
+        <h1 class="font-semibold">New Members</h1>
+        <a href="{{url_for('admin.member.index')}}" class="text-green-600 text-sm ml-auto mr-5">All Members</a>
+      </div>
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+        <thead class="text-xs text-black uppercase border-b">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              SN
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Name
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Email
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for member in data.recent_members %}
+          <tr class="bg-white hover:bg-gray-50">
+            <td class="px-6 py-4">
+              {{ loop.index }}
+            </td>
+            <td class="px-6 py-4 font-semibold capitalize">
+              {{member.firstname}} {{member.lastname}}
+            </td>
+            <td class="px-6 py-4 font-semibold flex gap-2">
+              {{member.email}}
+            </td>
+            <td class="px-6 py-4 capitalize">
+              <div class="ps-3">
+                {% if member.status %}
+                <div class="bg-green-600 rounded-full px-[8px] py-[5px] text-xs text-white w-fit">Enabled</div>
+                {% else %}
+                <div class="bg-red-600 rounded-full px-[8px] py-[5px] text-xs text-white w-fit">Disabled</div>
+                {% endif %}
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="col-span-1">
+      <div class="shadow bg-white p-5 flex flex-col">
+        <span class="bg-green-600 text-white px-2 py-1 rounded-3xl w-fit cursor-pointer text-[14px]">Top Books</span>
+        {%for book in data.top_books%}
+        <div class="mt-4">
+          <div class="flex gap-4">
+            <img src="{{book[0].picture}}" class="w-16 h-16 object-contain">
+            <div class="flex flex-col">
+              <p class="text-[15px] font-semibold">{{book[0].name}}</p>
+              <p class="text-[13px] text-gray-500 mb-2">{{book[1]}}</p>
+              <span class="text-red-600 px-2 py-1 text-[13px]">{{book.category}}</span>
+            </div>
+          </div>
+          <hr class="mt-3">
+        </div>
+        {%endfor%}
+      </div>
+    </div>
+  </div>
+
+  <div class="grid gap-4 md:grid-cols-1 mt-5">
+    <div class="p-2 bg-white shadow rounded overflow-y-auto">
+      <div class="flex justify-between px-5 pb-4 pt-3">
+        <h1 class="font-semibold">Recent Check-outs</h1>
+        <a href="{{url_for('admin.checkout.index')}}" class="text-red-600 text-sm">View All</a>
+      </div>
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+        <thead class="text-xs text-black uppercase border-b">
+          <tr>
+            <th scope="col" class="px-6 py-3">
+              SN
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Member
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Book
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Category
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Status
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Requested Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Borrowed Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Returned Date
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for bookrequest in data.recently_checkouts %}
+          <tr class="bg-white hover:bg-gray-50">
+            <td class="px-6 py-4">
+              {{ loop.index }}
+            </td>
+            <td class="px-6 py-4 font-semibold text-black capitalize">
+              {{bookrequest.user.firstname}} {{bookrequest.user.lastname}}
+            </td>
+            <td class="px-6 py-4 font-semibold flex gap-2 capitalize">
+              <img src="{{bookrequest.book.picture}}" class="object-contain w-16 h-16">
+              <div class="flex flex-col justify-center">
+                {{bookrequest.book.name}}
+                <span class="text-[12px] text-gray-400">by: {{bookrequest.book.author.name}}</span>
+              </div>
+            </td>
+            <td class="px-6 py-4 capitalize">
+              {{bookrequest.book.category.title}}
+            </td>
+            <th>
+              {%if bookrequest.status.name=='Requested'%}
+              <span class="text-[12px] px-3 py-1 rounded-3xl bg-blue-600 text-white">{{bookrequest.status.name}}</span>
+              {%elif bookrequest.status.name=='Renewed' %}
+              <span
+                class="text-[12px] px-3 py-1 rounded-3xl bg-yellow-600 text-white">{{bookrequest.status.name}}</span>
+              {%elif bookrequest.status.name=='Returned' %}
+              <span class="text-[12px] px-3 py-1 rounded-3xl bg-slate-600 text-white">{{bookrequest.status.name}}</span>
+              {%else%}
+              <span class="text-[12px] px-3 py-1 rounded-3xl bg-green-600 text-white">{{bookrequest.status.name}}</span>
+              {%endif%}
+            </th>
+            <td class="px-6 py-4">
+              {{bookrequest.created_at.strftime('%Y-%m-%d')}}
+            </td>
+            <td class="px-6 py-4">
+              {%if bookrequest.issue_date%}
+              {{bookrequest.issue_date.strftime('%Y-%m-%d')}}
+              {%else%}
+              -
+              {%endif%}
+            </td>
+            <td class="px-6 py-4">
+              {%if bookrequest.due_date%}
+              {{bookrequest.due_date.strftime('%Y-%m-%d')}}
+              {%else%}
+              -
+              {%endif%}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

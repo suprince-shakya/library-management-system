@@ -1,0 +1,75 @@
+<div class="fixed left-0 top-0 w-64 h-full bg-gray-900 p-4 z-50 sidebar-menu transition-transform">
+  <a href="#" class="flex items-center pb-4 border-b border-b-gray-800">
+    <img src="{{url_for('static', filename='images/logo.png')}}" alt="" class="w-10 h-10 rounded object-cover">
+    <span class="text-lg font-bold text-white ml-3">LMS</span>
+  </a>
+  <ul class="mt-4 h-full">
+    <li class="mb-1 group {% if request.path == '/admin/' %} active {% endif %}">
+      <a href="{{url_for('admin.dashboard')}}"
+        class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+        <i class="ri-home-2-line mr-3 text-lg"></i>
+        <span class="text-sm">Dashboard</span>
+      </a>
+    </li>
+    <li class="mb-1 group {% if request.path == '/admin/member/' %} active {% endif %}">
+      <a href="{{url_for('admin.member.index')}}"
+        class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+        <i class="ri-group-fill mr-3 text-lg"></i>
+        <span class="text-sm">Members</span>
+      </a>
+    </li>
+    <li class="mb-1 group">
+      <a href="#"
+        class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 sidebar-dropdown-toggle">
+        <i class="ri-book-2-fill mr-3 text-lg"></i>
+        <span class="text-sm">Books</span>
+        <i class="ri-arrow-right-s-line ml-auto group-[.selected]:rotate-90"></i>
+      </a>
+      <ul class="pl-5 mt-2 block group-[.selected]:hidden">
+        <li class="mb-1 group {% if request.path == '/admin/category/' %} active {% endif %}">
+          <a href="{{url_for('admin.category.index')}}"
+            class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 text-sm">
+            <i class="ri-corner-down-right-line mr-2 text-sm"></i>
+            <span class="text-sm">Category</span>
+          </a>
+        </li>
+        <li class="mb-1 group {% if request.path == '/admin/author/' %} active {% endif %}">
+          <a href="{{url_for('admin.author.index')}}"
+            class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 text-sm">
+            <i class="ri-corner-down-right-line mr-2 text-sm"></i>
+            <span class="text-sm">Author</span>
+          </a>
+        </li>
+        <li class="mb-1 group {% if request.path == '/admin/book/' %} active {% endif %}">
+          <a href="{{url_for('admin.book.index')}}"
+            class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100 text-sm">
+            <i class="ri-corner-down-right-line mr-2 text-sm"></i>
+            <span class="text-sm">Add Books</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="mb-1 group {% if request.path == '/admin/checkout/' %} active {% endif %}">
+      <a href="{{url_for('admin.checkout.index')}}"
+        class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+        <i class="ri-contacts-book-upload-line mr-3 text-lg"></i>
+        <span class="text-sm">Checkout Books</span>
+      </a>
+    </li>
+    <li class="mb-1 group {% if request.path == '/admin/change-password' %} active {% endif %}">
+      <a href="{{url_for('admin.change_password')}}"
+        class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+        <i class="ri-lock-2-line mr-3 text-lg"></i>
+        <span class="text-sm">Change Password</span>
+      </a>
+    </li>
+    <li class="mb-1 group absolute bottom-0">
+      <a href="{{url_for('main.logout')}}"
+        class="flex items-center py-2 px-4 text-gray-300 hover:bg-gray-950 hover:text-gray-100 rounded-md group-[.active]:bg-gray-800 group-[.active]:text-white group-[.selected]:bg-gray-950 group-[.selected]:text-gray-100">
+        <i class="ri-logout-box-line mr-3 text-lg"></i>
+        <span class="text-sm">Logout</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="fixed top-0 left-0 w-full h-full bg-black/50 z-40 md:hidden sidebar-overlay"></div>

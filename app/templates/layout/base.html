@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+</head>
+
+<body>
+  {% include 'partials/navbar.html' %}
+  <div class="content">
+    {% block content %} {% endblock %}
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script>
+    const menu = document.getElementById('mobile-menu');
+    function toggle(){
+      menu.classList.toggle("hidden");
+    }
+  </script>
+</body>
+
+</html>

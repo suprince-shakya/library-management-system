@@ -1,0 +1,42 @@
+<nav class="flex mt-5 justify-end w-full">
+  <ul class="list-style-none flex">
+    <li>
+      {% if data.first!=1 %}
+      <a class="relative block rounded bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+        href="{{ url_for(url, page=data.page-1, search=search) }}">Previous</a>
+      {%else%}
+      <button
+        class=" cursor-not-allowed relative block rounded opacity-50 bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 dark:text-white">Previous</button>
+      {%endif%}
+    </li>
+    {% for page in data.iter_pages() %}
+    {% if page %}
+    {% if page != data.page %}
+    <li>
+      <a class="relative block rounded bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100  dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+        href="{{ url_for(url, page=page, search=search) }}">{{ page }}</a>
+    </li>
+    {% else %}
+    <li>
+      <a class="relative block rounded bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100  dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+        href="{{ url_for(url, page=page, search=search) }}">{{ page }}</a>
+    </li>
+    {% endif %}
+    {% else %}
+    <li>
+      <button
+        class="relative block rounded bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 dark:text-white">...</button>
+    </li>
+    {% endif %}
+    {% endfor %}
+    <li>
+      {% if data.last!=data.total %}
+      <a class="relative block rounded bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 hover:bg-neutral-100 dark:text-white dark:hover:bg-neutral-700 dark:hover:text-white"
+        href="{{ url_for(url, page=data.page+1, search=search) }}">Next</a>
+      {%else%}
+      <button
+        class="relative cursor-not-allowed block rounded opacity-50 bg-white px-3 py-1.5 text-sm text-neutral-600 transition-all duration-300 dark:text-white">Next</button>
+      {%endif%}
+    </li>
+  </ul>
+</nav>

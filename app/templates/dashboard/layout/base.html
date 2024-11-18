@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+</head>
+
+<body class="text-gray-800 font-inter">
+    {% include 'dashboard/partials/sidebar.html' %}
+
+    <!-- start: Main -->
+    <main class="w-full md:w-[calc(100%-256px)] md:ml-64 bg-gray-50 min-h-screen transition-all main">
+        {% include 'dashboard/partials/top-menu.html' %}
+        <div class="p-3">
+            {% block content %} {% endblock %}
+        </div>
+    </main>
+    <!-- end: Main -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    {% block script %} {% endblock %}
+</body>
+
+</html>

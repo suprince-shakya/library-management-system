@@ -1,0 +1,80 @@
+{% extends 'dashboard/layout/base.html' %}
+
+{% block content %}
+<div class="flex flex-col items-center w-full">
+  <div class="flex flex-col w-full md:w-[80%] shadow bg-white px-5 py-3">
+    <div>
+      <h2 class="text-2xl font-bold leading-9 tracking-tight text-gray-900">Add Book</h2>
+      <form class="space-y-6" method="POST" enctype="multipart/form-data">
+        {{form.hidden_tag()}}
+        {% with errors  = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors  %}
+        <ul class="list-none">
+          {% for error in errors  %}
+          <li class="bg-red-600 text-white p-2 rounded">{{ error }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <div class="flex gap-2">
+          <div class="w-1/2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Book Name</label>
+            <div class="mt-2">
+              {{form.name(class_="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+            </div>
+          </div>
+          <div class="w-1/2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Category</label>
+            <div class="mt-2">
+              {{form.category_id(class_="block w-full rounded-md border-0 py-[9px] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-1/2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Author</label>
+            <div class="mt-2">
+              {{form.author_id(class_="block w-full rounded-md border-0 py-[9px] text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+            </div>
+          </div>
+          <div class="w-1/2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">ISBN Number</label>
+            <div class="mt-2">
+              {{form.isbn(class_="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+            </div>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <div class="w-1/2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Price</label>
+            <div class="mt-2">
+              {{form.price(class_="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+            </div>
+          </div>
+          <div class="w-1/2">
+            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Quantity</label>
+            <div class="mt-2">
+              {{form.quantity(class_="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+            </div>
+          </div>
+        </div>
+        <div class="w-full">
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Book Description</label>
+          <div class="mt-2">
+            {{form.description(class_="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6 h-[200px]")}}
+          </div>
+        </div>
+        <div class="w-1/2">
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Book Picture</label>
+          <div class="mt-2">
+            {{form.picture(class_="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 border-transparent focus:outline-none px-2 sm:text-sm sm:leading-6")}}
+          </div>
+        </div>
+        <div>
+          {{form.submit(class_="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer")}}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
